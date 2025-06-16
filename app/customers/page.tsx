@@ -40,16 +40,16 @@ export default async function CustomersList() {
                   </div>
                   <div className="space-x-4">
                     <Link
-                      href={`/properties/create/${customer._id}`}
+                      href={`/vehicles/create/${customer._id}`}
                       className="text-blue-500 hover:text-blue-600"
                     >
-                      Add Property
+                      Add Vehicle
                     </Link>
                     <Link
-                      href={`/properties/list/${customer._id}`}
+                      href={`/vehicles/list/${customer._id}`}
                       className="text-green-500 hover:text-green-600"
                     >
-                      View Properties
+                      View Vehicles
                     </Link>
                   </div>
                 </li>

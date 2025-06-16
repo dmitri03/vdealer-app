@@ -4,12 +4,12 @@ import connectDB from "@/data/db";
 import Vehicle from "@/data/models/Vehicle";
 import Owner from "@/data/models/Owner";
 
-export async function createVehicle(ownerId: string, formData: FormData) {
+export async function createVehicle(customerId: string, formData: FormData) {
   try {
     await connectDB();
 
     const make = formData.get("make") as string;
-    const carModel = formData.get("carModel") as string;
+    const vehicle_model = formData.get("vehicle_model") as string;
     const year = parseInt(formData.get("year") as string);
     const mileage = parseInt(formData.get("mileage") as string);
     const price = parseFloat(formData.get("price") as string);
@@ -18,16 +18,16 @@ export async function createVehicle(ownerId: string, formData: FormData) {
 
     const vehicle = await Vehicle.create({
       make,
-      carModel,
+      vehicle_model,
       year,
       mileage,
       price,
       description,
       status,
-      owner: ownerId,
+      owner: customerId,
     });
 
-    await Owner.findByIdAndUpdate(ownerId, {
+    await Owner.findByIdAndUpdate(customerId, {
       $push: { vehicles: vehicle._id },
     });
 
@@ -38,10 +38,10 @@ export async function createVehicle(ownerId: string, formData: FormData) {
   }
 }
 
-export async function getVehiclesByOwner(ownerId: string) {
+export async function getVehiclesByOwner(customerId: string) {
   try {
     await connectDB();
-    const vehicles = await Vehicle.find({ owner: ownerId });
+    const vehicles = await Vehicle.find({ owner: customerId });
     return vehicles;
   } catch (error) {
     console.error("Error fetching vehicles:", error);
@@ -76,7 +76,7 @@ export async function updateVehicle(vehicleId: string, formData: FormData) {
     await connectDB();
 
     const make = formData.get("make") as string;
-    const carModel = formData.get("carModel") as string;
+    const vehicle_model = formData.get("vehicle_model") as string;
     const year = parseInt(formData.get("year") as string);
     const mileage = parseInt(formData.get("mileage") as string);
     const price = parseFloat(formData.get("price") as string);
@@ -85,7 +85,7 @@ export async function updateVehicle(vehicleId: string, formData: FormData) {
 
     await Vehicle.findByIdAndUpdate(vehicleId, {
       make,
-      carModel,
+      vehicle_model,
       year,
       mileage,
       price,

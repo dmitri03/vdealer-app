@@ -61,7 +61,7 @@ const VehicleSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    maintenanceHistory: [MaintenanceSchema],
+    maintenanceHistory: [MaintenanceSchema]
   },
   {
     timestamps: true, // adds createdAt and updatedAt

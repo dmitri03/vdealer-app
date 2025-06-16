@@ -34,11 +34,40 @@ export default async function EditVehiclePage({
       >
         <input
           type="text"
-          name="title"
-          placeholder="Title"
-          defaultValue={vehicle.title}
+          name="make"
+          placeholder="Make"
+          defaultValue={vehicle.make}
           required
-          className="w-full text-gray-500 border px-3 py-2 rounded"
+          className="w-full text-gray-700 border px-3 py-2 rounded"
+        />
+
+        <input
+          type="text"
+          name="vehicle_model"
+          placeholder="Model"
+          defaultValue={vehicle.vehicle_model}
+          required
+          className="w-full text-gray-700 border px-3 py-2 rounded"
+        />
+
+        <input
+          type="number"
+          name="year"
+          placeholder="Year"
+          defaultValue={vehicle.year}
+          required
+          min={1900}
+          max={2100}
+          className="w-full text-gray-700 border px-3 py-2 rounded"
+        />
+
+        <input
+          type="number"
+          name="mileage"
+          placeholder="Mileage"
+          defaultValue={vehicle.mileage}
+          required
+          className="w-full text-gray-700 border px-3 py-2 rounded"
         />
 
         <input
@@ -47,9 +76,7 @@ export default async function EditVehiclePage({
           placeholder="Price"
           defaultValue={vehicle.price}
           required
-          min={1000}
-          max={1000000}
-          className="w-full text-gray-500 border px-3 py-2 rounded"
+          className="w-full text-gray-700 border px-3 py-2 rounded"
         />
 
         <input
@@ -58,16 +85,7 @@ export default async function EditVehiclePage({
           placeholder="Status"
           defaultValue={vehicle.status}
           required
-          className="w-full text-gray-500 border px-3 py-2 rounded"
-        />
-
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          defaultValue={vehicle.location}
-          required
-          className="w-full text-gray-500 border px-3 py-2 rounded"
+          className="w-full text-gray-700 border px-3 py-2 rounded"
         />
 
         <textarea
@@ -75,7 +93,7 @@ export default async function EditVehiclePage({
           placeholder="Description"
           defaultValue={vehicle.description}
           required
-          className="w-full text-gray-500 border px-3 py-2 rounded"
+          className="w-full text-gray-700 border px-3 py-2 rounded"
         />
 
         <button

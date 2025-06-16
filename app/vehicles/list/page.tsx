@@ -35,7 +35,7 @@ export default async function AllVehiclesPage() {
                   <div className="flex justify-between items-start">
                     <div>
                       <h2 className="font-medium text-lg text-black">
-                        {vehicle.make} {vehicle.carModel} ({vehicle.year})
+                        {vehicle.make} {vehicle.vehicle_model} ({vehicle.year})
                       </h2>
                       <p className="text-gray-700">
                         <strong>Owner:</strong> {vehicle.owner?.name || "Unknown"} <br />

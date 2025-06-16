@@ -6,9 +6,9 @@ import { createVehicle } from "@/actions/vehicle-actions";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-async function getCustomer(customerId: string) {
+async function getCustomer(customerid: string) {
   await connectDB();
-  const customer = await Owner.findById(customerId);
+  const customer = await Owner.findById(customerid);
   return customer;
 }
 
@@ -60,33 +60,57 @@ export default async function CreateVehicle({
 
         <form action={handleCreateVehicle} className="space-y-4">
           <div>
-            <label htmlFor="title" className="block mb-1">Title</label>
+            <label htmlFor="make" className="block mb-1">Make</label>
             <input
               type="text"
-              id="title"
-              name="title"
+              id="make"
+              name="make"
               required
               className="w-full p-2 border rounded"
             />
           </div>
 
           <div>
-            <label htmlFor="description" className="block mb-1">Description</label>
+            <label htmlFor="vehicle_model" className="block mb-1">Model</label>
             <input
               type="text"
-              id="description"
-              name="description"
+              id="vehicle_model"
+              name="vehicle_model"
               required
               className="w-full p-2 border rounded"
             />
           </div>
 
           <div>
-            <label htmlFor="location" className="block mb-1">Location</label>
+            <label htmlFor="year" className="block mb-1">Year</label>
             <input
-              type="text"
-              id="location"
-              name="location"
+              type="number"
+              id="year"
+              name="year"
+              required
+              min="1900"
+              max="2100"
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="mileage" className="block mb-1">Mileage</label>
+            <input
+              type="number"
+              id="mileage"
+              name="mileage"
+              required
+              className="w-full p-2 border rounded"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="price" className="block mb-1">Price</label>
+            <input
+              type="number"
+              id="price"
+              name="price"
               required
               className="w-full p-2 border rounded"
             />
@@ -104,16 +128,13 @@ export default async function CreateVehicle({
           </div>
 
           <div>
-            <label htmlFor="price" className="block mb-1">Price</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              min="1000"
-              max="1000000"
+            <label htmlFor="description" className="block mb-1">Description</label>
+            <textarea
+              id="description"
+              name="description"
               required
               className="w-full p-2 border rounded"
-            />
+            ></textarea>
           </div>
 
           <div className="flex gap-4">
