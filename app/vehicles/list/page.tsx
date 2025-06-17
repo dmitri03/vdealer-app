@@ -1,19 +1,48 @@
 /* eslint-disable */
 
 import Link from "next/link";
-import connectDB from "@/data/db";
-import Vehicle from "@/data/models/Vehicle";
-import Owner from "@/data/models/Owner";
+import { fetchVehicles, filterVehiclesByPrice,sortVehicles } from "@/actions/vehicle-actions";
+import SearchBar from "@/app/components/VehicleSearchBar";
+import FilterByPrice from "@/app/components/FilterByPrice";
 
-async function getAllVehiclesWithOwners() {
-  await connectDB();
+import SortBy from "@/app/components/SortByPrice";
 
-  const vehicles = await Vehicle.find({}).populate("owner", "name email");
-  return vehicles;
-}
+type SearchParams = {
+  search?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  sortBy?: string;
+  order?: "asc" | "desc";
+};
 
-export default async function AllVehiclesPage() {
-  const vehicles = await getAllVehiclesWithOwners();
+export default async function AllVehiclesPage({
+  searchParams,
+}: {
+  searchParams?: SearchParams;
+}) {
+  const searchTerm = searchParams?.search || "";
+  const minPrice = searchParams?.minPrice ? Number(searchParams.minPrice) : undefined;
+  const maxPrice = searchParams?.maxPrice ? Number(searchParams.maxPrice) : undefined;
+  const sortBy = searchParams?.sortBy || "price";
+  const order = searchParams?.order === "desc" ? "desc" : "asc";
+
+  let vehicles = [];
+
+  // Decide priority/order:
+  // If price filter present, filter by price (no search or sort)
+  // Else if search present, search (no sort)
+  // Else if sort present, sort all vehicles
+  // Else all vehicles default
+
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    vehicles = await filterVehiclesByPrice(minPrice, maxPrice);
+  } else if (searchTerm) {
+    vehicles = await fetchVehicles(searchTerm);
+  } else if (sortBy) {
+    vehicles = await sortVehicles(sortBy, order);
+  } else {
+    vehicles = await sortVehicles(); // default sort by price asc
+  }
 
   return (
     <main className="min-h-screen p-8">
@@ -25,7 +54,13 @@ export default async function AllVehiclesPage() {
           </Link>
         </div>
 
-        <div className="bg-white shadow rounded">
+        <SearchBar defaultValue={searchTerm} />
+
+        <FilterByPrice defaultMin={minPrice ?? 0} defaultMax={maxPrice ?? 1000000} />
+
+        <SortBy defaultSortBy={sortBy} defaultOrder={order} />
+
+        <div className="bg-white shadow rounded mt-6">
           {vehicles.length === 0 ? (
             <p className="p-4 text-black">No vehicles found</p>
           ) : (
@@ -38,7 +73,6 @@ export default async function AllVehiclesPage() {
                         {vehicle.make} {vehicle.vehicle_model} ({vehicle.year})
                       </h2>
                       <p className="text-gray-700">
-                        <strong>Owner:</strong> {vehicle.owner?.name || "Unknown"} <br />
                         <strong>Mileage:</strong> {vehicle.mileage.toLocaleString()} miles <br />
                         <strong>Price:</strong> ${vehicle.price.toLocaleString()} <br />
                         <strong>Status:</strong> {vehicle.status} <br />

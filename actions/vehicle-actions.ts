@@ -103,3 +103,50 @@ export async function updateVehicle(vehicleId: string, formData: FormData) {
 export async function updateVehicleByForm(vehicleId: string, formData: FormData) {
   return updateVehicle(vehicleId, formData); // Simply call updateVehicle
 }
+
+
+export async function fetchVehicles(search?: string) {
+  await connectDB();
+
+  const query = search
+    ? {
+        $or: [
+          { make: { $regex: search, $options: "i" } },
+          { vehicle_model: { $regex: search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const vehicles = await Vehicle.find(query).lean(); // Use Vehicle model here
+  return vehicles;
+} 
+
+
+export async function filterVehiclesByPrice(minPrice?: number, maxPrice?: number) {
+  await connectDB();
+
+  const priceQuery: any = {};
+  if (minPrice !== undefined) priceQuery.$gte = minPrice;
+  if (maxPrice !== undefined) priceQuery.$lte = maxPrice;
+
+  const query = Object.keys(priceQuery).length ? { price: priceQuery } : {};
+
+  return Vehicle.find(query).lean();
+}
+
+export async function sortVehicles(
+  sortBy: string = "price",
+  order: "asc" | "desc" = "asc"
+) {
+  await connectDB();
+
+  // Validate allowed fields to sort by
+  const allowedSortFields = ["price", "year", "mileage", "make", "vehicle_model"];
+  if (!allowedSortFields.includes(sortBy)) sortBy = "price";
+
+  const sortOrder = order === "desc" ? -1 : 1;
+  const sortObj: any = {};
+  sortObj[sortBy] = sortOrder;
+
+  return Vehicle.find({}).sort(sortObj).lean();
+}

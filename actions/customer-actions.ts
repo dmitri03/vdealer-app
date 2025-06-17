@@ -96,3 +96,10 @@ export const updateCustomer = async (id: string, formData: FormData) => {
 const isValidEmail = (email: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
+
+
+/*231426558918-f9tteom2q8un87mfb6s8baojqfkuim74.apps.googleusercontent.com*/
+
+
+/*secret 
+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*/

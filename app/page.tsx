@@ -24,7 +24,7 @@ export default function Home() {
               href="/vehicles/list"
               className="inline-block bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600"
             >
-              View All Vehicles 
+              View and Search Vehicles 
             </Link>
             <Link
               href="/customers"
