@@ -20,11 +20,11 @@ export default async function AllVehiclesPage({
 }: {
   searchParams?: SearchParams;
 }) {
-  const searchTerm = searchParams?.search || "";
-  const minPrice = searchParams?.minPrice ? Number(searchParams.minPrice) : undefined;
-  const maxPrice = searchParams?.maxPrice ? Number(searchParams.maxPrice) : undefined;
-  const sortBy = searchParams?.sortBy || "price";
-  const order = searchParams?.order === "desc" ? "desc" : "asc";
+  const searchTerm = await searchParams?.search || "";
+  const minPrice = await searchParams?.minPrice ? Number(searchParams.minPrice) : undefined;
+  const maxPrice =await searchParams?.maxPrice ? Number(searchParams.maxPrice) : undefined;
+  const sortBy =await searchParams?.sortBy || "price";
+  const order = await searchParams?.order === "desc" ? "desc" : "asc";
 
   let vehicles = [];
 
